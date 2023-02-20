@@ -8,8 +8,19 @@ using System;
 
 namespace Lab2
 {
-  class SingleTone
+  public class Singleton
   {
+    public static Singleton Instance
+    {
+      get
+      {
+        if (instance == null) instance = new Singleton();
+        return instance;
+      }
+    }
+    private Singleton() { }
+    private static Singleton instance;
+
     byte type;
 
     enum TypesOfFiles
@@ -143,8 +154,7 @@ namespace Lab2
   {
     static void Main(string[] args)
     {
-      SingleTone file = new SingleTone();
-      file.InitialiseFile();
+      Singleton.Instance.InitialiseFile();
     }
   }
 }
