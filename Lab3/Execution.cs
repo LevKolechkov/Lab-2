@@ -40,7 +40,7 @@ namespace Lab_3
       {
         int length = firstMatrix.GetSizeOfMatrix();
         Console.WriteLine("Первая матрица A: ");
-        for (int rowIndex = 0; rowIndex < length; rowIndex++) 
+        for (int rowIndex = 0; rowIndex < length; ++rowIndex) 
         {
           for (int columnIndex = 0; columnIndex < length; ++columnIndex) 
           {
@@ -102,7 +102,6 @@ namespace Lab_3
       {
         choice = InputProcessor();
       }
-
       else
       {
         throw new Exception("Неправильный выбор матрицы");
