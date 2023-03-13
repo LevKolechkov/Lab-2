@@ -43,9 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caretaker.cs" />
+    <Compile Include="Cat.cs" />
     <Compile Include="Execution.cs" />
-    <Compile Include="Matrix.cs" />
-    <Compile Include="MyExceptions.cs" />
+    <Compile Include="Memento.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
