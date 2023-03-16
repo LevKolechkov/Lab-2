@@ -6,6 +6,7 @@
 using System;
 using System.IO;
 
+
 namespace Lab4
 {
   class Execution
@@ -18,7 +19,7 @@ namespace Lab4
 
       cat.Print();
 
-      cat.Serialize(binCat);
+      cat.binSerialize(binCat);
 
       cat = new Cat("Британец", "Чарльз", 15);
 
@@ -26,9 +27,32 @@ namespace Lab4
 
       cat.Print();
 
-      cat.Deserialize(binCat);
+      cat.binDeserialize(binCat);
 
       cat.Print();
+
+      cat = new Cat("Сфинкс", "Пушистик", 4);
+
+      cat.Print();
+
+      FileStream xmlCat = new FileStream("D:\\Workspace\\Labs\\xmlCat.bin", FileMode.OpenOrCreate, FileAccess.Write);
+
+      cat.XmlSerialize(xmlCat);
+
+      cat = new Cat("Мейн кун", "Рон Перлман", 14);
+
+      cat.Print();
+
+      xmlCat = new FileStream("D:\\Workspace\\Labs\\xmlCat.bin", FileMode.OpenOrCreate, FileAccess.Read);
+
+      cat.XmlDeserialize(xmlCat);
+
+      cat.Print();
+
+
+      
+
+      
     }
   }
 }

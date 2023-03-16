@@ -1,5 +1,0 @@
-<cat>
- <breed>Siamese</breed>
- <name>Barsik</name>
- <age>15</age>
-</cat>

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 
 
 namespace Lab4
 {
   [Serializable]
-  class Cat : IOriginator
+  public class Cat : IOriginator
   {
     public string Breed { get; set; }
     public string Name { get; set; }
@@ -21,7 +22,7 @@ namespace Lab4
       Age = age;
     }
 
-    public void Serialize(FileStream binCat)
+    public void binSerialize(FileStream binCat)
     {
       BinaryFormatter bf = new BinaryFormatter();
 
@@ -31,7 +32,7 @@ namespace Lab4
       binCat.Close();
     }
 
-    public void Deserialize(FileStream binCat)
+    public void binDeserialize(FileStream binCat)
     {
       BinaryFormatter bf = new BinaryFormatter();
 
@@ -44,9 +45,30 @@ namespace Lab4
       binCat.Close();
     }
 
+    public void XmlSerialize(FileStream xmlCat)
+    {
+      XmlSerializer xmlSerializer = new XmlSerializer(typeof(Cat));
+
+      xmlSerializer.Serialize(xmlCat, this);
+
+      xmlCat.Flush();
+      xmlCat.Close();
+    }
+
+    public void XmlDeserialize(FileStream xmlCat)
+    {
+      XmlSerializer xmlSerializer = new XmlSerializer (typeof(Cat));
+
+      Cat desCat = (Cat)xmlSerializer.Deserialize(xmlCat);
+
+      Breed = desCat.Breed;
+      Name = desCat.Name;
+      Age = desCat.Age;
+    }
+
     public void Print()
     {
-      Console.WriteLine($"Breed: {Breed}, Name: {Name}, Age: {Age}");
+      Console.WriteLine($"Порода: {Breed}, Имя: {Name}, Возраст: {Age}");
     }
 
     object IOriginator.GetMemento()
