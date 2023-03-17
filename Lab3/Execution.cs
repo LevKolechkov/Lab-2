@@ -3,56 +3,37 @@
 *       13.03.2023         *
 * Стандартный ввод и вывод *
 ***************************/
+using Lab4;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
-
-namespace Lab4
+namespace Lab2
 {
   class Execution
   {
     static void Main(string[] args)
     {
-      FileStream binCat = new FileStream("D:\\Workspace\\Labs\\binCat.bin", FileMode.OpenOrCreate, FileAccess.Write);
-      
-      Cat cat = new Cat("Сиамский", "Барсик", 9);
+      Console.WriteLine("Начнём с создания файла с описанием вашего кота");
 
-      cat.Print();
+      Cat cat = new Cat();
 
-      cat.binSerialize(binCat);
+      Console.WriteLine("Введите название породы");
 
-      cat = new Cat("Британец", "Чарльз", 15);
+      cat.Breed = Console.ReadLine();
 
-      binCat = new FileStream("D:\\Workspace\\Labs\\binCat.bin", FileMode.OpenOrCreate, FileAccess.Read);
+      Console.WriteLine("");
 
-      cat.Print();
+      Console.WriteLine("Выберите номер сериализации которую вы хотите сделать: 1 - txt; 2 - XML");
 
-      cat.binDeserialize(binCat);
+      int choice = int.Parse(Console.ReadLine());
 
-      cat.Print();
-
-      cat = new Cat("Сфинкс", "Пушистик", 4);
-
-      cat.Print();
-
-      FileStream xmlCat = new FileStream("D:\\Workspace\\Labs\\xmlCat.bin", FileMode.OpenOrCreate, FileAccess.Write);
-
-      cat.XmlSerialize(xmlCat);
-
-      cat = new Cat("Мейн кун", "Рон Перлман", 14);
-
-      cat.Print();
-
-      xmlCat = new FileStream("D:\\Workspace\\Labs\\xmlCat.bin", FileMode.OpenOrCreate, FileAccess.Read);
-
-      cat.XmlDeserialize(xmlCat);
-
-      cat.Print();
-
-
-      
-
-      
+      switch (choice) 
+      {
+        case 1:
+          Console.WriteLine("Вы выбрали txt");
+          break;
+      }
     }
   }
 }

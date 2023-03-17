@@ -46,6 +46,7 @@
     <Compile Include="Caretaker.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Execution.cs" />
+    <Compile Include="KeyWords.cs" />
     <Compile Include="Memento.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -87,6 +87,7 @@ namespace Lab4
       {
         var mem = memento as Memento;
         Breed = mem.Breed;
+        Name = mem.Name;
         Age = mem.Age;
       }
     }
