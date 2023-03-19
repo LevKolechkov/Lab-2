@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Lab2
 {
   class Execution
   {
-    public void Main(string[] args)
+    static void Main(string[] args)
     {
       string wrongLink = ("D:\\Workspace\\Labs\\Файлы\\wrongWords.txt");
       string rightLink = ("D:\\Workspace\\Labs\\Файлы\\rightWords.txt");
@@ -18,9 +19,35 @@ namespace Lab2
 
       WrongWords wrongWords = new WrongWords(count);
 
-      wrongWords.AddWords();
 
-       
+      string wrongText = File.ReadAllText(wrongLink);
+
+      List <string> words = new List<string>();
+
+      string word = "";
+
+      for (int index = 0; index < wrongText.Length; index++) 
+      {
+
+        if (!char.IsWhiteSpace(wrongText[index]))
+        {
+          word += wrongText[index];
+        }
+        else
+        {
+          words.Add(word);
+
+          word = "";
+
+          ++index;
+        }
+      }
+
+      foreach (string i in words) 
+      {
+        Console.WriteLine(i);
+      }
+      
     }
   }
 }
