@@ -21,7 +21,7 @@ namespace Lab2
 
     public void AddWords()
     {
-      for (int rowIndex = 0; rowIndex <= count; ++rowIndex)
+      for (int rowIndex = 0; rowIndex < count; ++rowIndex)
       {
         Console.WriteLine("Введите правильное слово");
 

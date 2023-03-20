@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Lab2
 {
@@ -8,6 +10,8 @@ namespace Lab2
   {
     static void Main(string[] args)
     {
+      Console.WriteLine("Сначала резберёмся со словами");
+
       string wrongLink = ("D:\\Workspace\\Labs\\Файлы\\wrongWords.txt");
       string rightLink = ("D:\\Workspace\\Labs\\Файлы\\rightWords.txt");
 
@@ -16,9 +20,6 @@ namespace Lab2
       FileStream rightFile = new FileStream(rightLink, FileMode.OpenOrCreate, FileAccess.Write);
 
       int count = File.ReadAllLines(wrongLink).Length;
-
-      WrongWords wrongWords = new WrongWords(count);
-
 
       string wrongText = File.ReadAllText(wrongLink);
 
@@ -43,10 +44,19 @@ namespace Lab2
         }
       }
 
-      foreach (string i in words) 
+      Console.WriteLine("Список непрвильных слов:");
+
+      foreach (string wrongWord in words) 
       {
-        Console.WriteLine(i);
+        Console.WriteLine(wrongWord);
       }
+
+      WrongWords dictionaryWords = new WrongWords(count);
+
+      Console.WriteLine("Создайте словарь с правильными и неправильными словами, опирающийся на неправильные слова");
+      dictionaryWords.AddWords();
+
+      
       
     }
   }
