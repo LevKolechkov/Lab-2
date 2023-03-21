@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace Lab2
@@ -15,15 +14,11 @@ namespace Lab2
       string wrongLink = ("D:\\Workspace\\Labs\\Файлы\\wrongWords.txt");
       string rightLink = ("D:\\Workspace\\Labs\\Файлы\\rightWords.txt");
 
-      FileStream wrongFile = new FileStream(wrongLink, FileMode.OpenOrCreate, FileAccess.Read);
-
-      FileStream rightFile = new FileStream(rightLink, FileMode.OpenOrCreate, FileAccess.Write);
-
       int count = File.ReadAllLines(wrongLink).Length;
 
       string wrongText = File.ReadAllText(wrongLink);
 
-      List <string> words = new List<string>();
+      List <string> wordsInFile = new List<string>();
 
       string word = "";
 
@@ -36,7 +31,7 @@ namespace Lab2
         }
         else
         {
-          words.Add(word);
+          wordsInFile.Add(word);
 
           word = "";
 
@@ -46,18 +41,64 @@ namespace Lab2
 
       Console.WriteLine("Список непрвильных слов:");
 
-      foreach (string wrongWord in words) 
+      foreach (string wrongWord in wordsInFile) 
       {
         Console.WriteLine(wrongWord);
       }
 
+      Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
+
       WrongWords dictionaryWords = new WrongWords(count);
 
       Console.WriteLine("Создайте словарь с правильными и неправильными словами, опирающийся на неправильные слова");
-      dictionaryWords.AddWords();
+      dictionaryWords.AddWords(dictionary);
 
-      
-      
+      Console.WriteLine("Слова исправлены на:");
+
+      foreach (KeyValuePair<string, List<string>> words in dictionary)
+      {
+        string rightWord = words.Key;
+        List<string> wrongWords = words.Value;
+
+        foreach(string wordFromFile in wordsInFile)
+        {
+          if (wrongWords.Contains(wordFromFile))
+          {
+            using (StreamWriter writer = new StreamWriter(rightLink, true)) 
+            {
+              writer.WriteLine(rightWord);
+              Console.WriteLine(rightWord);
+            }
+          }
+        }
+
+      }
+
+      Console.WriteLine("\nТеперь работа с номерами");
+
+      string[] numbers = 
+      {
+        "1-646-791-9525",
+        "1-762-305-4233",
+        "1-251-463-2362",
+        "1-573-484-3327",
+        "1-689-434-3525",
+        "1-842-475-5345"
+      };
+
+      foreach(string number in numbers) 
+      {
+        Console.WriteLine(number);
+      }
+
+      Console.WriteLine();
+
+      foreach (string number in numbers) 
+      {
+        string newNumber = Regex.Replace(number, @"^1-(\d{3})-(\d{3})-(\d{2})(\d{2})$", "8-$1-$2-$3-$4");
+        Console.WriteLine(newNumber);
+      }
+
     }
   }
 }

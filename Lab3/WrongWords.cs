@@ -17,9 +17,7 @@ namespace Lab2
 
     private int count;
 
-    Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
-
-    public void AddWords()
+    public void AddWords(Dictionary<string, List<string>> dictionary)
     {
       for (int rowIndex = 0; rowIndex < count; ++rowIndex)
       {
