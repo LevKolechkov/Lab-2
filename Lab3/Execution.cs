@@ -1,152 +1,104 @@
-﻿/***************************
-*      Колечков Лев        *
-*       13.03.2023         *
-* Стандартный ввод и вывод *
-***************************/
-using Lab4;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
-namespace Lab4
+namespace Lab2
 {
   class Execution
   {
     static void Main(string[] args)
     {
-      KeyWords keyWords = new KeyWords();
+      Console.WriteLine("Сначала резберёмся со словами");
 
-      while (true)
+      string wrongLink = ("D:\\Workspace\\Labs\\Файлы\\wrongWords.txt");
+      string rightLink = ("D:\\Workspace\\Labs\\Файлы\\rightWords.txt");
+
+      int count = File.ReadAllLines(wrongLink).Length;
+
+      string wrongText = File.ReadAllText(wrongLink);
+
+      List <string> wordsInFile = new List<string>();
+
+      string word = "";
+
+      for (int index = 0; index < wrongText.Length; index++) 
       {
-        Console.WriteLine("Начнём с создания файла с описанием вашего кота");
 
-        Cat catFile = new Cat();
-
-        Console.WriteLine("Введите название породы");
-
-        catFile.Breed = Console.ReadLine();
-
-        keyWords.addKeyWord(catFile.Breed);
-
-        Console.WriteLine("Введите имя кота");
-
-        catFile.Name = Console.ReadLine();
-
-        keyWords.addKeyWord(catFile.Name);
-
-        Console.WriteLine("Теперь введите возраст кота");
-
-        catFile.Age = int.Parse(Console.ReadLine());
-
-        Console.WriteLine("Выберите как Вы хотите сериализовать файл: 1 - Bin; 2 - XML");
-
-        int choiceSerialize = int.Parse(Console.ReadLine());
-
-        switch (choiceSerialize)
+        if (!char.IsWhiteSpace(wrongText[index]))
         {
-          case 1:
-            keyWords.addKeyWord("Bin");
+          word += wrongText[index];
+        }
+        else
+        {
+          wordsInFile.Add(word);
 
-            Console.WriteLine("Вы выбрали Bin");
+          word = "";
 
-            FileStream binCat = new FileStream($"D:\\Workspace\\Labs\\Файлы\\BinCat{catFile.Breed}{catFile.Name}", FileMode.OpenOrCreate, FileAccess.Write);
+          ++index;
+        }
+      }
 
-            catFile.binSerialize(binCat);
+      Console.WriteLine("Список непрвильных слов:");
 
-            break;
+      foreach (string wrongWord in wordsInFile) 
+      {
+        Console.WriteLine(wrongWord);
+      }
 
-          case 2:
-            keyWords.addKeyWord("XML");
+      Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
 
-            Console.WriteLine("Вы выбрали XML");
+      WrongWords dictionaryWords = new WrongWords(count);
 
-            FileStream xmlCat = new FileStream($"D:\\Workspace\\Labs\\Файлы\\XmlCat{catFile.Breed}{catFile.Name}", FileMode.OpenOrCreate, FileAccess.Write);
+      Console.WriteLine("Создайте словарь с правильными и неправильными словами, опирающийся на неправильные слова");
+      dictionaryWords.AddWords(dictionary);
 
-            catFile.XmlSerialize(xmlCat);
+      Console.WriteLine("Слова исправлены на:");
 
-            break;
+      foreach (KeyValuePair<string, List<string>> words in dictionary)
+      {
+        string rightWord = words.Key;
+        List<string> wrongWords = words.Value;
 
-          default:
-
-            throw new Exception("Данного варианта нет. Попрошу начать заново");
+        foreach(string wordFromFile in wordsInFile)
+        {
+          if (wrongWords.Contains(wordFromFile))
+          {
+            using (StreamWriter writer = new StreamWriter(rightLink, true)) 
+            {
+              writer.WriteLine(rightWord);
+              Console.WriteLine(rightWord);
+            }
+          }
         }
 
-        Console.WriteLine("Желаете ли вы создать ещё один файл? (Да/Нет)");
-
-        string choiceSerFile = Console.ReadLine();
-
-        if (choiceSerFile == "Нет") break;
-        else Console.Clear();
       }
 
-      string serKey, breedKey, nameKey;
+      Console.WriteLine("\nТеперь работа с номерами");
 
-      FileStream fileCat = keyWords.FindFile(out serKey, out breedKey, out nameKey);
-
-      Console.WriteLine("Что вы хотите с ним сделать?");
-      Console.WriteLine("1 - Вывести. 2 - Перезаписать");
-
-      int choiceFile = int.Parse(Console.ReadLine());
-
-      Cat cat = new Cat();
-
-      if (serKey == "Bin")
+      string[] numbers = 
       {
-        cat.binSerialize(fileCat);
+        "1-646-791-9525",
+        "1-762-305-4233",
+        "1-251-463-2362",
+        "1-573-484-3327",
+        "1-689-434-3525",
+        "1-842-475-5345"
+      };
 
-      }
-      else
+      foreach(string number in numbers) 
       {
-        cat.XmlDeserialize(fileCat);
-
+        Console.WriteLine(number);
       }
 
-      Caretaker saveCat = new Caretaker();
+      Console.WriteLine();
 
-      switch (choiceFile)
+      foreach (string number in numbers) 
       {
-        case 1:
-          Console.WriteLine("Вы выбрали вывести");
-
-          cat.Print();
-
-          break;
-
-        case 2:
-          Console.WriteLine("Вы выбрали перезаписать");
-
-          saveCat.SaveState(cat);
-
-          Console.WriteLine("Введите название породы");
-          cat.Breed = Console.ReadLine();
-
-          Console.WriteLine("Введите имя");
-          cat.Name = Console.ReadLine();
-
-          Console.WriteLine("Введите возраст");
-          cat.Age = int.Parse(Console.ReadLine());
-
-          Console.WriteLine("Вы изменили на:");
-          cat.Print();
-
-          Console.WriteLine("Желаете ли отменить? (Да/Нет)");
-
-          string choiceCancel = Console.ReadLine();
-
-          if (choiceCancel == "Да")
-          {
-            saveCat.RestoreState(cat);
-
-            Console.WriteLine("Изменения отменены");
-
-            cat.Print();
-          }
-          else
-          {
-            cat.Print();
-          }
-
-          break;
+        string newNumber = Regex.Replace(number, @"^1-(\d{3})-(\d{3})-(\d{2})(\d{2})$", "8-$1-$2-$3-$4");
+        Console.WriteLine(newNumber);
       }
+
     }
   }
 }
