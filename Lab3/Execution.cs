@@ -50,7 +50,7 @@ namespace Lab_3
         }
 
         Console.WriteLine("\n Вторая матрица B: ");
-        for (int rowIndex = 0; rowIndex<= length; ++rowIndex) 
+        for (int rowIndex = 0; rowIndex < length; ++rowIndex) 
         {
           for (int columnIndex = 0; columnIndex < length; ++columnIndex) 
           {
