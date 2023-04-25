@@ -1,13 +1,16 @@
 ﻿/**************************
 *      Колечков Лев       *
-*       03.03.2023        *
-*   Перегрузка операций   *
+*       25.04.2023        *
+*   События и делегаты    *
 **************************/
 
 using System;
 
 namespace Lab_3
 {
+  public delegate void MatrixWithNumber (int[,] matrix, int number);
+  public delegate void MatrixWithMatrix(int[,] firstMatrix, int[,] secondMatrix);
+
   class Execution
   {
     static SquareMatrix firstMatrix;
@@ -50,6 +53,24 @@ namespace Lab_3
         }
 
         Console.WriteLine("\n Вторая матрица B: ");
+
+        secondMatrix.Diagonalizator = delegate
+        {
+          Console.WriteLine("А давайте я приеду матрицу к диагональному виду");
+
+          for (int rowIndex = 0; rowIndex < secondMatrix.SizeOfMatrix; ++rowIndex)
+          {
+            for (int columnIndex = 0; columnIndex < secondMatrix.SizeOfMatrix; ++columnIndex)
+            {
+              if (rowIndex != columnIndex)
+              {
+                secondMatrix[rowIndex, columnIndex] = 0;
+              }
+            }
+          }
+        };
+        secondMatrix.Diagonalize();
+
         for (int rowIndex = 0; rowIndex < length; ++rowIndex) 
         {
           for (int columnIndex = 0; columnIndex < length; ++columnIndex) 

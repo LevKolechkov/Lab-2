@@ -3,6 +3,8 @@ using System;
 
 namespace Lab_3
 {
+  delegate void DiagonalizeDelegate(int[,] sqMatrix);
+
   class SquareMatrix : ICloneable
   {
     public int SizeOfMatrix { get; set; }
@@ -36,6 +38,12 @@ namespace Lab_3
       {
         Console.WriteLine(ex.Message);
       }
+    }
+
+    public DiagonalizeDelegate Diagonalizator { get; set; }
+    public void Diagonalize()
+    {
+      Diagonalizator(sqMatrix);
     }
 
     public object Clone()
@@ -127,22 +135,6 @@ namespace Lab_3
     public override int GetHashCode()
     {
       return int.Parse(ToString());
-    }
-
-    public static SquareMatrix operator +(SquareMatrix aloneSqMatrix, int number)
-    {
-      SquareMatrix sumSqMatrix = aloneSqMatrix.Clone() as SquareMatrix;
-
-      int length = sumSqMatrix.GetSizeOfMatrix();
-
-      for (int rowIndex = 0; rowIndex < length; ++rowIndex)
-      {
-        for (int columnIndex = 0; columnIndex < length; ++columnIndex)
-        {
-          sumSqMatrix[rowIndex, columnIndex] = number + aloneSqMatrix[rowIndex, columnIndex];
-        }
-      }
-      return sumSqMatrix;
     }
 
     public int CompareTo(object obj)
@@ -304,6 +296,22 @@ namespace Lab_3
         }
       }
 
+    }
+
+    public static SquareMatrix operator +(SquareMatrix aloneSqMatrix, int number)
+    {
+      SquareMatrix sumSqMatrix = aloneSqMatrix.Clone() as SquareMatrix;
+
+      int length = sumSqMatrix.GetSizeOfMatrix();
+
+      for (int rowIndex = 0; rowIndex < length; ++rowIndex)
+      {
+        for (int columnIndex = 0; columnIndex < length; ++columnIndex)
+        {
+          sumSqMatrix[rowIndex, columnIndex] = number + aloneSqMatrix[rowIndex, columnIndex];
+        }
+      }
+      return sumSqMatrix;
     }
 
     public static SquareMatrix operator +(int number, SquareMatrix aloneSqMatrix)

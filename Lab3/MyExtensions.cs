@@ -28,7 +28,7 @@ namespace Lab_3
     public static int TraceOfMatrix(this int[,] sqMatrix)
     {
       int trace = 0;
-      int sizeOfMatrix = sqMatrix.GetLength (0);
+      int sizeOfMatrix = sqMatrix.GetLength(0);
 
       for (int row = 0; row < sizeOfMatrix; ++row)
       {
