@@ -8,9 +8,6 @@ using System;
 
 namespace Lab_3
 {
-  public delegate void MatrixWithNumber (int[,] matrix, int number);
-  public delegate void MatrixWithMatrix(int[,] firstMatrix, int[,] secondMatrix);
-
   class Execution
   {
     static SquareMatrix firstMatrix;
