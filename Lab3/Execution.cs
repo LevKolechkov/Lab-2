@@ -53,7 +53,7 @@ namespace Lab_3
 
         secondMatrix.Diagonalizator = delegate
         {
-          Console.WriteLine("А давайте я приеду матрицу к диагональному виду");
+          Console.WriteLine("А давайте я приведу матрицу к диагональному виду");
 
           for (int rowIndex = 0; rowIndex < secondMatrix.SizeOfMatrix; ++rowIndex)
           {

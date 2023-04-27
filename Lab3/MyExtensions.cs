@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,14 @@ namespace Lab_3
 {
   static class MyExtensions
   {
-    public static int[,] TransposeMatrix (this int[,] sqMatrix) 
+    public static int[,] TransposeMatrix (this SquareMatrix sqMatrix) 
     {
-      int rows = sqMatrix.GetLength (0);
-      int columns = sqMatrix.GetLength (1);
-      int[,] resultMatrix = new int[columns, rows];
+      int sizeOfMatrix = sqMatrix.SizeOfMatrix;
+      int[,] resultMatrix = new int[sizeOfMatrix, sizeOfMatrix];
 
-      for (int row = 0; row < rows; ++row) 
+      for (int row = 0; row < sizeOfMatrix; ++row) 
       {
-        for (int column = 0; column < columns; ++column)
+        for (int column = 0; column < sizeOfMatrix; ++column)
         {
           resultMatrix[column, row] = sqMatrix[row, column];
         }
@@ -25,10 +25,10 @@ namespace Lab_3
       return resultMatrix;
     }
 
-    public static int TraceOfMatrix(this int[,] sqMatrix)
+    public static int TraceOfMatrix(this SquareMatrix sqMatrix)
     {
       int trace = 0;
-      int sizeOfMatrix = sqMatrix.GetLength(0);
+      int sizeOfMatrix = sqMatrix.SizeOfMatrix;
 
       for (int row = 0; row < sizeOfMatrix; ++row)
       {

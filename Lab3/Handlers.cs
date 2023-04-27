@@ -9,6 +9,7 @@ namespace Lab2
 {
   public abstract class BaseHandler
   {
+
     protected BaseHandler Next { get; set; }
     protected ICalculateEvent PrivateEvent { get; set; }
 
@@ -21,7 +22,7 @@ namespace Lab2
 
     public virtual void Handle(ICalculateEvent ev)
     {
-      
+       
     }
 
     protected void SetNextHandler (BaseHandler newHandler)
@@ -36,6 +37,8 @@ namespace Lab2
 
     public SumOfMatrixAndNumberHandler(int[,] sqMatrix, int number) 
     {
+      Next = new SubOfMatrixAndNumberHandler(sqMatrix, number);
+
       PrivateEvent = new SumEvent(sqMatrix, number);
 
       Calc = new Calculations();
@@ -50,6 +53,8 @@ namespace Lab2
 
     public SumOfMatrixAndMatrixHandler(int[,] firstMatrix, int[,] secondMatrix)
     {
+      Next = new SubOfMatrixAndMatrixHandler(firstMatrix, secondMatrix);
+
       PrivateEvent = new SumEvent (firstMatrix, secondMatrix);
 
       Calc = new Calculations();
@@ -64,6 +69,8 @@ namespace Lab2
 
     public SubOfMatrixAndNumberHandler(int[,] sqMatrix, int number) 
     {
+      Next = null; 
+
       PrivateEvent = new SubEvent(sqMatrix, number);
 
       Calc = new Calculations();
@@ -78,6 +85,8 @@ namespace Lab2
 
     public SubOfMatrixAndMatrixHandler(int[,] firstMatrix, int[,] secondMatrix)
     {
+      Next = null;
+
       PrivateEvent = new SubEvent(firstMatrix, secondMatrix);
 
       Calc = new Calculations();

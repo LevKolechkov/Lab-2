@@ -1,4 +1,5 @@
-﻿using Project2;
+﻿using Lab2;
+using Project2;
 using System;
 
 namespace Lab_3
@@ -9,6 +10,8 @@ namespace Lab_3
   {
     public int SizeOfMatrix { get; set; }
     public int[,] sqMatrix;
+
+    private BaseHandler eventHandler;
 
     public SquareMatrix(int sizeOfMatrix)
     {
@@ -38,6 +41,59 @@ namespace Lab_3
       {
         Console.WriteLine(ex.Message);
       }
+    }
+
+    public void Run(int[,] sqMatrix, int[,] secondSqMatrix ,string message)
+    {
+      if (message == "Сумма матрицы и числа" || message == "Разница матрицы и числа")
+      {
+        switch (message)
+        {
+          case "Сумма матрицы и числа":
+            Console.WriteLine("Введите число, которое будет прибавляться к матрице");
+            int number = Int32.Parse(Console.ReadLine());
+
+            ICalculateEvent eventOfMatrixAndNumber = new SumEvent(sqMatrix, number);
+
+            HandleEvent(eventOfMatrixAndNumber);
+
+            break;
+
+          case "Сумма матрицы и матрицы":
+            ICalculateEvent eventOfMatrixAndMatrix = new SumEvent(sqMatrix, secondSqMatrix);
+
+            HandleEvent(eventOfMatrixAndMatrix);
+
+            break;
+        }
+      }
+      else
+      {
+        switch (message)
+        {
+          case "Разница матрицы и числа":
+            Console.WriteLine("Введите число, которе будет отниматься от матрицы");
+            int number = Int32.Parse(Console.ReadLine());
+
+            ICalculateEvent eventOfMatrixAndNumber = new SubEvent(sqMatrix, number);
+
+            HandleEvent(eventOfMatrixAndNumber);
+
+            break;
+
+          case "Разница матрицы и матрицы":
+            ICalculateEvent eventOfMatrixAndMatrix = new SubEvent(sqMatrix, secondSqMatrix);
+
+            HandleEvent(eventOfMatrixAndMatrix);
+
+            break;
+        }
+      }  
+    }
+
+    private void HandleEvent(ICalculateEvent ev)
+    {
+      eventHandler.Handle(ev);
     }
 
     public DiagonalizeDelegate Diagonalizator { get; set; }
