@@ -4,7 +4,9 @@
 *   События и делегаты    *
 **************************/
 
+using Lab2;
 using System;
+using System.Net.Http;
 
 namespace Lab_3
 {
@@ -292,6 +294,49 @@ namespace Lab_3
       }
     }
 
+    public static int WriteNumber()
+    {
+      Console.WriteLine("Введите число");
+
+      return Int32.Parse(Console.ReadLine());
+    }
+
+    static public void Operate(SquareMatrix firstMatrix, SquareMatrix secondMatrix)
+    {
+      int[,] mainMatrix = firstMatrix.sqMatrix;
+      int[,] minorMatrix = secondMatrix.sqMatrix;
+
+      Console.WriteLine("Выберите операцию (Матрица + число; Матрица + матрица; Матрица - число; Матрица - матрица)");
+
+      string message = Console.ReadLine();
+
+      if (message == "Матрица + число" && message != "Матрица + матрица" && message != "Матрица - число")
+      {
+        int number = WriteNumber();
+
+        SumEvent eventOfMatrix = new SumEvent(mainMatrix, number);
+
+        SumOfMatrixAndNumberHandler handler = new SumOfMatrixAndNumberHandler(mainMatrix, number);
+
+        handler.Handle(eventOfMatrix);
+
+        Console.WriteLine("Событие обработано");
+      }
+      else 
+      {
+        if (message == "Матрица + матрица" || message == "Матрица - матрица")
+        {
+          SumEvent eventOfMatrix = new SumEvent(mainMatrix, minorMatrix);
+
+          SumOfMatrixAndMatrixHandler handler = new SumOfMatrixAndMatrixHandler(mainMatrix, minorMatrix);
+
+          handler.Handle(eventOfMatrix);
+
+          Console.WriteLine("Событие обработано");
+        }
+      }
+    }
+
     static public int DisplayMenu()
     {
       Console.WriteLine("Матричный калькулятор");
@@ -299,6 +344,7 @@ namespace Lab_3
       Console.WriteLine("1 - Создать матрицу");
       Console.WriteLine("2 - Операции с матрицами");
       Console.WriteLine("3 - Список матриц");
+      Console.WriteLine("4 - Обновлённые операции");
 
       int result = 0;
 
@@ -333,6 +379,12 @@ namespace Lab_3
             break;
           case 3:
             PrintMatrix();
+            break;
+          case 4:
+            int[,] mainMatrix = firstMatrix.sqMatrix;
+            int[,] minorMatrix = firstMatrix.sqMatrix;
+
+            Operate(firstMatrix, secondMatrix);
             break;
         }
       } while (Console.ReadKey(true).Key != ConsoleKey.Escape);

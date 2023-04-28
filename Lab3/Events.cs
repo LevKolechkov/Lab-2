@@ -10,14 +10,13 @@ namespace Lab2
   public abstract class ICalculateEvent
   {
     public string EventType { get; set;}
+    public int[,] MainMatrix { get; set; }
+    public int[,] MinorMatrix { get; set; }
+    public int Number { get; set; }
   }
   
   class SumEvent : ICalculateEvent
   {
-    public string EventType { get; set; }
-    public int[,] MainMatrix { get; set; }
-    public int[,] MinorMatrix { get; set; }
-    public int Number { get; set; }
 
     public SumEvent(int[,] sqMatrix, int number)
     {
@@ -38,10 +37,6 @@ namespace Lab2
 
   class SubEvent : ICalculateEvent
   {
-    public string EventType { get; set; }
-    public int[,] MainMatrix { get; set; }
-    public int[,] MinorMatrix { get; set; }
-    public int Number { get; set; }
 
     public SubEvent(int[,] sqMatrix, int number)
     {

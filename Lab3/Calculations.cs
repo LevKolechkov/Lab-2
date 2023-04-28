@@ -7,13 +7,22 @@ using System.Threading.Tasks;
 namespace Lab_3
 {
   public delegate int[,] MatrixWithNumber(int[,] matrix, int number);
-  public delegate int[,] MatrixWithMatrix(int[,] firstMatrix, int[,] secondMatrix);
+  public delegate int[,] MatrixWithMatrix(int[,] MainMatrix, int[,] MinorMatrix);
 
   public class Calculations
   {
-    public int[,] SumOfMatrixAndNumber(int[,] sqMatrix, int number)
+    int[,] MainMatrix { get; set; }
+    int[,] MinorMatrix { get; set; }
+
+    public Calculations(int[,] MainMatrix, int[,] MinorMatrix) 
     {
-      int sizeOfMatrix = sqMatrix.GetLength(0);
+      this.MainMatrix = MainMatrix;
+      this.MinorMatrix = MinorMatrix;
+    }
+
+    public int[,] SumOfMatrixAndNumber(int[,] MainMatrix, int number)
+    {
+      int sizeOfMatrix = MainMatrix.GetLength(0);
 
       int[,] result = new int[sizeOfMatrix, sizeOfMatrix];
 
@@ -21,16 +30,16 @@ namespace Lab_3
       {
         for (int columnIndex = 0; columnIndex < sizeOfMatrix; ++columnIndex)
         {
-          result[sizeOfMatrix, sizeOfMatrix] = sqMatrix[rowIndex, columnIndex] + number;
+          result[rowIndex, columnIndex] = MainMatrix[rowIndex, columnIndex] + number;
         }
       }
 
       return result;
     }
 
-    public int[,] SumOfMatrixAndMatrix(int[,] firstMatrix, int[,] secondMatrix)
+    public int[,] SumOfMatrixAndMatrix(int[,] MainMatrix, int[,] MinorMatrix)
     {
-      int sizeOfMatrix = firstMatrix.GetLength(0);
+      int sizeOfMatrix = MainMatrix.GetLength(0);
 
       int[,] result = new int[sizeOfMatrix, sizeOfMatrix];
 
@@ -38,16 +47,16 @@ namespace Lab_3
       {
         for (int columnIndex = 0; columnIndex < sizeOfMatrix; ++columnIndex)
         {
-          result[rowIndex, columnIndex] = firstMatrix[rowIndex, columnIndex] + secondMatrix[rowIndex, columnIndex];
+          result[rowIndex, columnIndex] = MainMatrix[rowIndex, columnIndex] + MinorMatrix[rowIndex, columnIndex];
         }
       }
 
       return result;
     }
 
-    public int[,] SubOfMatrixAndNumber(int[,] sqMatrix, int number)
+    public int[,] SubOfMatrixAndNumber(int[,] MainMatrix, int number)
     {
-      int sizeOfMatrix = sqMatrix.GetLength(0);
+      int sizeOfMatrix = MainMatrix.GetLength(0);
 
       int[,] result = new int[sizeOfMatrix, sizeOfMatrix];
 
@@ -55,16 +64,16 @@ namespace Lab_3
       {
         for (int columnIndex = 0; columnIndex < sizeOfMatrix; ++columnIndex)
         {
-          result[rowIndex, columnIndex] = sqMatrix[rowIndex, columnIndex] - number;
+          result[rowIndex, columnIndex] = MainMatrix[rowIndex, columnIndex] - number;
         }
       }
 
       return result;
     }
 
-    public int[,] SubOfMatrixAndMatrix(int[,] firstMatrix, int[,] secondMatrix)
+    public int[,] SubOfMatrixAndMatrix(int[,] MainMatrix, int[,] MinorMatrix)
     {
-      int sizeOfMatrix = firstMatrix.GetLength(0);
+      int sizeOfMatrix = MainMatrix.GetLength(0);
 
       int[,] result = new int[sizeOfMatrix, sizeOfMatrix];
 
@@ -72,7 +81,7 @@ namespace Lab_3
       {
         for (int columnIndex = 0; columnIndex < sizeOfMatrix; ++columnIndex)
         {
-          result[rowIndex, columnIndex] = firstMatrix[rowIndex, columnIndex] - secondMatrix[rowIndex, columnIndex];
+          result[rowIndex, columnIndex] = MainMatrix[rowIndex, columnIndex] - MinorMatrix[rowIndex, columnIndex];
         }
       }
 
