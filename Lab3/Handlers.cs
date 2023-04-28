@@ -13,6 +13,14 @@ namespace Lab2
     protected BaseHandler Next { get; set; }
     protected ICalculateEvent PrivateEvent { get; set; }
 
+    public void ChangePrivateType()
+    {
+      int[,] MainMatrix = PrivateEvent.MainMatrix;
+      int number = PrivateEvent.Number;
+
+      this.PrivateEvent = new SubEvent(MainMatrix, number);
+    }
+
     public Calculations Calc { get; set; }
 
     public BaseHandler()
@@ -20,9 +28,9 @@ namespace Lab2
       Next = null;
     }
 
-    public virtual void Handle(ICalculateEvent eventOfMatrix)
+    public virtual int[,] Handle(ICalculateEvent eventOfMatrix)
     {
-       
+      return null;
     }
 
     protected void SetNextHandler (BaseHandler newHandler)
@@ -46,17 +54,18 @@ namespace Lab2
       operation = new MatrixWithNumber(Calc.SumOfMatrixAndNumber);
     }
 
-    public override void Handle(ICalculateEvent eventOfMatrix)
+    public override int[,] Handle(ICalculateEvent eventOfMatrix)
     {
       if (PrivateEvent.EventType == "Матрица + число")
       {
-        operation(eventOfMatrix.MainMatrix, eventOfMatrix.Number);
+        return operation(eventOfMatrix.MainMatrix, eventOfMatrix.Number);
+
       }
       else
       {
         Console.WriteLine("Перехожу к следующему обработчику...");
 
-        Next.Handle(eventOfMatrix);
+        return Next.Handle(eventOfMatrix);
       }
     }
   }
@@ -76,17 +85,17 @@ namespace Lab2
       operation = new MatrixWithMatrix(Calc.SumOfMatrixAndMatrix);
     }
 
-    public override void Handle(ICalculateEvent eventOfMatrix)
+    public override int[,] Handle(ICalculateEvent eventOfMatrix)
     {
-      if (PrivateEvent.EventType == "Матрица + число")
+      if (PrivateEvent.EventType == "Матрица + матрица")
       {
-        operation(eventOfMatrix.MainMatrix, eventOfMatrix.MinorMatrix);
+        return operation(eventOfMatrix.MainMatrix, eventOfMatrix.MinorMatrix);
       }
       else
       {
         Console.WriteLine("Перехожу к следующему обработчику...");
         
-        Next.Handle(eventOfMatrix);
+        return Next.Handle(eventOfMatrix);
       }
     }
   }
@@ -106,16 +115,18 @@ namespace Lab2
       operation = new MatrixWithNumber(Calc.SubOfMatrixAndNumber);
     }
 
-    public override void Handle(ICalculateEvent eventOfMatrix)
+    public override int[,] Handle(ICalculateEvent eventOfMatrix)
     {
       if (PrivateEvent.EventType == "Матрица - число")
       {
-        operation(eventOfMatrix.MainMatrix, eventOfMatrix.Number);
+        return operation(eventOfMatrix.MainMatrix, eventOfMatrix.Number);
+
       }
       else
       {
         Console.WriteLine("Перехожу к следующему обработчику...");
-        Next.Handle(eventOfMatrix);
+
+        return Next.Handle(eventOfMatrix);
       }
     }
   }
@@ -135,15 +146,17 @@ namespace Lab2
       operation = new MatrixWithMatrix(Calc.SubOfMatrixAndMatrix);
     }
 
-    public override void Handle(ICalculateEvent eventOfMatrix)
+    public override int[,] Handle(ICalculateEvent eventOfMatrix)
     {
       if (PrivateEvent.EventType == "Матрица - матрица")
       {
-        operation(eventOfMatrix.MainMatrix, eventOfMatrix.MinorMatrix);
+        return operation(eventOfMatrix.MainMatrix, eventOfMatrix.MinorMatrix);
       }
       else
       {
         Console.WriteLine("Невозможно обработать");
+
+        return null;
       }
     }
   }

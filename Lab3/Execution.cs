@@ -301,7 +301,7 @@ namespace Lab_3
       return Int32.Parse(Console.ReadLine());
     }
 
-    static public void Operate(SquareMatrix firstMatrix, SquareMatrix secondMatrix)
+    static public int[,] Operate(SquareMatrix firstMatrix, SquareMatrix secondMatrix)
     {
       int[,] mainMatrix = firstMatrix.sqMatrix;
       int[,] minorMatrix = secondMatrix.sqMatrix;
@@ -310,15 +310,18 @@ namespace Lab_3
 
       string message = Console.ReadLine();
 
-      if (message == "Матрица + число" && message != "Матрица + матрица" && message != "Матрица - число")
+      int[,] freshResultMatrix = null;
+
+      if (message == "Матрица + число" || message == "Матрица - число")
       {
         int number = WriteNumber();
 
         SumEvent eventOfMatrix = new SumEvent(mainMatrix, number);
 
         SumOfMatrixAndNumberHandler handler = new SumOfMatrixAndNumberHandler(mainMatrix, number);
+        if (message == "Матрица - число") { handler.ChangePrivateType(); }
 
-        handler.Handle(eventOfMatrix);
+        freshResultMatrix = handler.Handle(eventOfMatrix);
 
         Console.WriteLine("Событие обработано");
       }
@@ -327,13 +330,23 @@ namespace Lab_3
         if (message == "Матрица + матрица" || message == "Матрица - матрица")
         {
           SumEvent eventOfMatrix = new SumEvent(mainMatrix, minorMatrix);
+          if (message == "Матрица - матрица") { eventOfMatrix.EventType = message; }
 
           SumOfMatrixAndMatrixHandler handler = new SumOfMatrixAndMatrixHandler(mainMatrix, minorMatrix);
 
-          handler.Handle(eventOfMatrix);
+          freshResultMatrix = handler.Handle(eventOfMatrix);
 
           Console.WriteLine("Событие обработано");
         }
+      }
+      if (freshResultMatrix != null)
+      {
+        return freshResultMatrix;
+      }
+      else 
+      {
+        Console.WriteLine("Не удалось прооперировать");
+        return null;
       }
     }
 
@@ -384,7 +397,7 @@ namespace Lab_3
             int[,] mainMatrix = firstMatrix.sqMatrix;
             int[,] minorMatrix = firstMatrix.sqMatrix;
 
-            Operate(firstMatrix, secondMatrix);
+            firstMatrix.sqMatrix = Operate(firstMatrix, secondMatrix);
             break;
         }
       } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
